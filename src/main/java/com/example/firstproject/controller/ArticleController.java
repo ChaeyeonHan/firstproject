@@ -6,8 +6,12 @@ import com.example.firstproject.repository.ArticleRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.Optional;
 
 @Controller
 @Slf4j  // simple logging~ 약자. 로깅을 위한 어노테이션
@@ -39,6 +43,20 @@ public class ArticleController {
 //        System.out.println(saved.toString());
         log.info(saved.toString());
         return "";
+    }
+
+    @GetMapping("/articles/{id}")  // id위치에 들어가는 수는 변한다
+    public String show(@PathVariable Long id, Model model){
+        log.info("id = " + id);
+        // 1. id로 데이터를 찾는다
+        Article articleEntity = articleRepository.findById(id).orElse(null);  // 해당 id값이 없으면 null을 반환해라
+//        Optional<Article> articleEntity2 = articleRepository.findById(id);
+
+        // 2. 가져온 데이터를 모델에 등록
+        model.addAttribute("article", articleEntity);  // article이라는 이름으로 articleEntity를 등록해준다
+
+        // 3. 보여줄 페이지를 설정
+        return "articles/show";
     }
 
 }
