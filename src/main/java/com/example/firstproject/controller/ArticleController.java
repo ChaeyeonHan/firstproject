@@ -33,7 +33,6 @@ public class ArticleController {
         // System.out.println(form.toString()); // toString으로 찍어보기 -> 실제 이렇게하면 절대 안됨 => 로깅기능으로 대체!!(블랙박스 역할)
         log.info(form.toString());
 
-
         // 1. DTO를 Entity로 변환!
         Article article = form.toEntity();
         // System.out.println(article.toString());
@@ -67,8 +66,21 @@ public class ArticleController {
 
         // 2. 가져온 Article묶음을 view로 전달
         model.addAttribute("articleList", articleEntityList);
+
         // 3. 뷰 페이지를 설정
         return "articles/index";  // articles/index.mustache가 뷰페이지로
+    }
+
+    @GetMapping("/articles/{id}/edit")  // Long id과 {id} 변수명 같아야함
+    public String edit(@PathVariable Long id, Model model){
+        // 수정할 데이터 가져오기
+        Article articleEntity = articleRepository.findById(id).orElse(null);
+
+        // 모델에 데이터 등록
+        model.addAttribute("article", articleEntity);
+
+        // 뷰 페이지 설정
+        return "articles/edit";
     }
 
 }
