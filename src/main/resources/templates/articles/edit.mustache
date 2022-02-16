@@ -1,7 +1,8 @@
 {{>layouts/header}}
 
 {{#article}}  <!-- #article을 추가해줘서, article.title을 title로 적기 가능해짐 -->
-<form class="container" action="" method="post">
+<form class="container" action="/articles/update" method="post">  <!-- form태그는 get, post 메소드만 지원 -->
+    <input name="id" type="hidden" value="{{id}}"/>  <!-- 몇번째 데이터를 수정했는지 숨겨서 던진다-->
     <div class="mb-3">
         <label class="form-label">제목</label>
         <input type="text" class="form-control" name="title" value="{{title}}">

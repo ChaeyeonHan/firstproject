@@ -10,11 +10,12 @@ import lombok.ToString;
 @ToString  // toString()
 public class ArticleForm {
 
+    private Long id;  // id필드 추가
     private String title;
     private String content;
 
     public Article toEntity() {
-        return new Article(null, title, content);
+        return new Article(id, title, content);
         // dto에 담긴 title과 content를 그대로 넣어서 Article(entity)을 만들어 반환해준다
     }
 }
