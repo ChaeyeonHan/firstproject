@@ -30,20 +30,20 @@ public class ArticleController {
     // @PostMapping("어디로받을지")
     @PostMapping("/articles/create")
     public String createArticle(ArticleForm form){  // 폼데이터가 던져져서 온다. dto로 받아온다
-//        System.out.println(form.toString()); // toString으로 찍어보기 -> 실제 이렇게하면 절대 안됨 => 로깅기능으로 대체!!(블랙박스 역할)
+        // System.out.println(form.toString()); // toString으로 찍어보기 -> 실제 이렇게하면 절대 안됨 => 로깅기능으로 대체!!(블랙박스 역할)
         log.info(form.toString());
 
 
         // 1. DTO를 Entity로 변환!
         Article article = form.toEntity();
-//        System.out.println(article.toString());
+        // System.out.println(article.toString());
         log.info(article.toString());
 
         // 2. Repository에게 Entity를 DB안에 저장하게 만들기
         Article saved = articleRepository.save(article);  // 위에서 변환한 article(entity)를 save해주고, saved라는 이름으로 반환시킴.
-//        System.out.println(saved.toString());
+        // System.out.println(saved.toString());
         log.info(saved.toString());
-        return "";
+        return "redirect:/articles/" + saved.getId();
     }
 
     @GetMapping("/articles/{id}")  // id위치에 들어가는 수는 변한다

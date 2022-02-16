@@ -9,7 +9,7 @@
     </tr>
     </thead>
     <tbody>
-        {{#article}}
+        {{#article}}  <!-- 모델에 등록된 데이터는 #으로 가져온다 -->
     <tr>
         <th>{{id}}</th>
         <td>{{title}}</td>
@@ -17,6 +17,7 @@
     </tr>
         {{/article}}
     </tbody>
+    <a href="/articles">Go to Article List</a>
 </table>
 
 {{>layouts/footer}}
