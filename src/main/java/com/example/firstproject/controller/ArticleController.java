@@ -7,9 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,14 +24,14 @@ public class ArticleController {
     private ArticleRepository articleRepository;
 
     @GetMapping("/articles/new")
-    public String newArticleForm(){
+    public String newArticleForm() {
         return "articles/new";   // templates안에 articles/new.mustache 파일을 찾아 브라우저에 전송
     }
 
     // new.mustache에서 method="post"로 던졌기에 post로 받아준다.
     // @PostMapping("어디로받을지")
     @PostMapping("/articles/create")
-    public String createArticle(ArticleForm form){  // 폼데이터가 던져져서 온다. dto로 받아온다
+    public String createArticle(ArticleForm form) {  // 폼데이터가 던져져서 온다. dto로 받아온다
         // System.out.println(form.toString()); // toString으로 찍어보기 -> 실제 이렇게하면 절대 안됨 => 로깅기능으로 대체!!(블랙박스 역할)
         log.info(form.toString());
 
@@ -46,7 +48,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")  // id위치에 들어가는 수는 변한다
-    public String show(@PathVariable Long id, Model model){
+    public String show(@PathVariable Long id, Model model) {
         log.info("id = " + id);
         // 1. id로 데이터를 찾는다
         Article articleEntity = articleRepository.findById(id).orElse(null);  // 해당 id값이 없으면 null을 반환해라
@@ -60,7 +62,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")  // 데이터 목록 조회하기 List<Entity>로 반환된다
-    public String index(Model model){
+    public String index(Model model) {
         // 1. 모든 Article을 가져온다.
         List<Article> articleEntityList = articleRepository.findAll();
 
@@ -72,7 +74,7 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}/edit")  // Long id과 {id} 변수명 같아야함
-    public String edit(@PathVariable Long id, Model model){
+    public String edit(@PathVariable Long id, Model model) {
         // 수정할 데이터 가져오기
         Article articleEntity = articleRepository.findById(id).orElse(null);
 
@@ -84,7 +86,7 @@ public class ArticleController {
     }
 
     @PostMapping("/articles/update")
-    public String update(ArticleForm form, Long id){
+    public String update(ArticleForm form, Long id) {
         log.info(form.toString());
         // 수정된 폼 받기
         // 1. DTO를 엔티티로 변환
@@ -96,7 +98,7 @@ public class ArticleController {
         Article target = articleRepository.findById(articleEntity.getId()).orElse(null); // target변수에는 데이터가 있으면 articleEntity가 연결되고, 없다면 null이 들어간다.
 
         // 2-2 : 기존데이터의 값을 갱신
-        if (target != null){
+        if (target != null) {
             articleRepository.save(articleEntity);  // 엔티티가 DB로 갱신
         }
         // 3. 수정결과 페이지로 리다이렉트
@@ -104,4 +106,22 @@ public class ArticleController {
         return "redirect:/articles/" + articleEntity.getId();
     }
 
+    //@DeleteMapping("/articles/{id}/delete")  // 삭제요청연결 -> html에서 지원X -> GetMapping대신 사용
+    @GetMapping("articles/{id}/delete")
+    public String delete(@PathVariable Long id, RedirectAttributes rttr) {  // rttr : 리다이렉트에서 사용하기 위한 데이터
+        log.info("삭제 요청이 들어왔습니다!");
+
+        // 1. 삭제대상을 가져온다
+        Article target = articleRepository.findById(id).orElse(null);
+        log.info(target.toString());
+
+        // 2. 그 대상을 삭제한다
+        if (target != null) {
+            articleRepository.delete(target);
+            rttr.addFlashAttribute("msg", "삭제가 완료되었습니다!");  // 일회성으로 한번 사용하는 메시지 : 휘발성 데이터 등록하기
+        }
+
+        // 3. 결과 페이지로 리다이렉트
+        return "redirect:/articles";
+    }
 }
