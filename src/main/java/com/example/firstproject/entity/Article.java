@@ -28,5 +28,12 @@ public class Article {
 //
 //    }
 
+    public void patch(Article article){  // 있는 경우에만 갱신해준다
+        if (article.title != null)  // article이 새로운 데이터(사용자가 수정한). 새로 입력한 title이 있다면
+            this.title = article.title;
+        if (article.content != null)
+            this.content = article.content;
+    }
+
 
 }
