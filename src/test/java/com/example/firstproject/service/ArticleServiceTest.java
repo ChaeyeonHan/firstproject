@@ -2,6 +2,7 @@ package com.example.firstproject.service;
 
 import com.example.firstproject.dto.ArticleForm;
 import com.example.firstproject.entity.Article;
+import org.hibernate.dialect.function.AnsiTrimEmulationFunction;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,98 @@ class ArticleServiceTest {
 
         // 비교
         assertEquals(expected, article);
-
     }
+
+    @Test
+    @DisplayName("존재하는 id와 title, content가 있는 dto입력")
+    @Transactional
+    void update_성공1(){
+        // 준비
+        Long id = 1L;
+        String title="가나다라";
+        String content="1234";
+        ArticleForm dto = new ArticleForm(id, title, content);
+
+        // 예상
+        Article expected = new Article(id, title, content);
+
+
+        // 실제
+        Article article = articleService.update(id, dto);
+
+        // 비교
+        assertEquals(expected.toString(), article.toString());
+    }
+
+    @Test
+    @DisplayName("존재하는 id와 title만 있는 dto입력")
+    @Transactional
+    void update_성공2(){
+        // 준비
+        Long id = 1L;
+        String title="가나다라";
+        String content=null;
+        ArticleForm dto = new ArticleForm(id, title, content);
+
+        // 예상
+        Article expected = new Article(id, title, "1111");
+
+        // 실제
+        Article article = articleService.update(id, dto);
+
+        // 비교
+        assertEquals(expected.toString(), article.toString());
+    }
+
+
+    @Test
+    @DisplayName("존재하지 않는 id의 dto입력")
+    void update_실패(){
+        // 준비
+        Long id = -1L;
+        String title=null;
+        String content=null;
+        ArticleForm dto = new ArticleForm(id, title, content);
+
+        // 예상
+        Article expected = null;
+
+        // 실제
+        Article article = articleService.update(id, dto);
+
+        // 비교
+        assertEquals(expected, article);
+    }
+
+    @Test
+    @DisplayName("존재하는 id입력")
+    @Transactional
+    void delete_성공(){
+        // 예상
+        Article expected = articleService.show(1L);
+
+        // 실제
+        Article article = articleService.delete(1L); // 삭제된 article반환
+
+        // 비교
+        assertEquals(expected, article);
+    }
+
+
+    @Test
+    @DisplayName("존재하지 않는 id입력")
+    @Transactional
+    void delete_실패(){
+        // 예상
+        Article expected = null;
+
+        // 실제
+        Article article = articleService.delete(-1L);
+
+        // 비교
+        assertEquals(expected, article);
+    }
+
+
+
 }
