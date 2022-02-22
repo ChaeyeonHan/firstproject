@@ -17,8 +17,12 @@ INSERT INTO comment(id, article_id, nickname, body) VALUES(3, 4, 'Choi', '쇼생
 INSERT INTO comment(id, article_id, nickname, body) VALUES(4, 5, 'Park', '치킨');
 INSERT INTO comment(id, article_id, nickname, body) VALUES(5, 5, 'Kim', '샤브샤브');
 INSERT INTO comment(id, article_id, nickname, body) VALUES(6, 5, 'Choi', '초밥');
+INSERT INTO comment(id, article_id, nickname, body) VALUES(10, 5, 'Han', 'ice cream');
 
 ---- 6번 게시글의 댓글들
 INSERT INTO comment(id, article_id, nickname, body) VALUES(7, 6, 'Park', '조깅');
 INSERT INTO comment(id, article_id, nickname, body) VALUES(8, 6, 'Kim', '유튜브');
 INSERT INTO comment(id, article_id, nickname, body) VALUES(9, 6, 'Choi', '독서');
+INSERT INTO comment(id, article_id, nickname, body) VALUES(11, 6, 'Han', 'i like games');
+INSERT INTO comment(id, article_id, nickname, body) VALUES(12, 6, 'anony', ' ');  -- 공백의 댓글
+INSERT INTO comment(id, article_id, nickname, body) VALUES(13, 6, 'anony', '');  -- 아무것도 없는 댓글 (애초에 작성불가로 막아두는건 안되난?)
