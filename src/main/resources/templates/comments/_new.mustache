@@ -44,7 +44,7 @@
         // fetch() - Talend API요청을 js로 보내주는 역할
         const url = "/api/articles/" + comment.article_id + "/comments";
         fetch(url, {
-            method: "post",  // post요청
+            method: "POST",  // post요청
             body: JSON.stringify(comment),  // comment js객체를 json으로 변환해서 전송
             headers: {
                 "Content-Type": "application/json"  // body의 타입을 명시
