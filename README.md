@@ -1,6 +1,12 @@
-# firstproject
+## firstproject
 
-### CRUD 기능의 게시판 만들기
+### Spring boot 게시판 프로젝트 공부
 
-1. 제목, 내용의 게시글을 작성, 수정, 삭제 가능
-2. 댓글 달기 기능
+사용기술
+- Spring Boot
+- Spring JPA
+- PostgreSQL
+
+기능
+- 게시글 생성/조회/수정/삭제
+- 댓글 생성/조회/수정/삭제
