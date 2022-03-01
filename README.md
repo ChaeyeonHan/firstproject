@@ -6,6 +6,7 @@
 - Spring Boot
 - Spring JPA
 - PostgreSQL
+- H2 database
 
 기능
 - 게시글 생성/조회/수정/삭제
